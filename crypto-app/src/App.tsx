@@ -1,9 +1,9 @@
 /* eslint-disable indent */
-import './App.css'
+import './App.scss'
 
 function App() {
   return (
-    <div>
+    <div className='appWrapper'>
       qq
     </div>
   )
