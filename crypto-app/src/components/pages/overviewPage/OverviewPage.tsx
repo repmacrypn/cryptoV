@@ -1,14 +1,13 @@
-import { SquareArrowDown, ChevronLeft, ChevronRight } from 'tabler-icons-react'
+import { SquareArrowDown } from 'tabler-icons-react'
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useContext } from 'react'
 import s from './OverviewPage.module.scss'
 import { TableHeading, tableHeadings } from 'src/utils/cryptoTableHeaders'
-import { TableLayout } from 'src/layouts/tableLayout/TableLayout'
-import { cryptoAPI, total } from 'src/services/clientService'
-import ReactPaginate from 'react-paginate'
-import { AssetsContext } from 'src/contexts/Contexts'
-import { useAssetsContext } from 'src/hooks/useAssetsContext'
+import { cryptoAPI } from 'src/services/clientService'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
+import { TableLayout } from 'src/components/layouts/tableLayout/TableLayout'
+import { PaginationList } from 'src/components/layouts/paginlistLayout/PaginationList'
+import { PageContext } from 'src/contexts/Contexts'
 
 export const OverviewPage = () => {
     return (
@@ -16,7 +15,9 @@ export const OverviewPage = () => {
             <header>
                 current info
             </header>
-            <PaginationList />
+            <PaginationList>
+                <CryptoAssetsTable />
+            </PaginationList>
         </div>
     )
 }
@@ -30,65 +31,15 @@ export const CryptoAssetsTable = () => {
     )
 }
 
-export const PaginationList = () => {
-    const [page, setPage] = useState(0)
+export const TableBody = () => {
+    const page = useContext(PageContext)
 
-    const handlePageChange = ({ selected }: { selected: number }): void => {
-        setPage(selected)
-    }
-
-    const { data: assets = [], isFetching } = useQuery({
+    const { data: assets = [] } = useQuery({
         queryKey: ['assets', page],
         queryFn: () => cryptoAPI.fetchAssets(page),
+        keepPreviousData: true,
+        staleTime: 1000 * 5 * 60,
     })
-
-    if (isFetching) return <div>qq</div>
-
-    return (
-        <main>
-            <AssetsContext.Provider value={assets}>
-                <CryptoAssetsTable />
-            </AssetsContext.Provider>
-            <ReactPaginate
-                previousLabel={
-                    <ChevronLeft
-                        className={s.icon}
-                        viewBox="0 0 24 24"
-                        height={14}
-                        width={20}
-                    />
-                }
-                nextLabel={
-                    <ChevronRight
-                        className={s.icon}
-                        viewBox="-2 0 24 24"
-                        height={14}
-                        width={20}
-                    />
-                }
-                breakLabel={null}
-                pageCount={total}
-                marginPagesDisplayed={0}
-                pageRangeDisplayed={4}
-                onPageChange={handlePageChange}
-                forcePage={page}
-                containerClassName={s.pagination}
-                breakClassName={s.navLi}
-                previousClassName={s.navLi}
-                nextClassName={s.navLi}
-                pageClassName={s.navLi}
-                activeLinkClassName={s.active}
-                breakLinkClassName={s.navA}
-                pageLinkClassName={s.navA}
-                previousLinkClassName={`${s.navA} ${s.moveButton}`}
-                nextLinkClassName={`${s.navA} ${s.moveButton}`}
-            />
-        </main>
-    )
-}
-
-export const TableBody = () => {
-    const assets = useAssetsContext()
 
     const assetsRows = assets.map((asset: CryptoCoin) => {
         return (
