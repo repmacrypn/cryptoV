@@ -10,4 +10,5 @@ export const tableHeadings: TableHeading[] = [
     { name: 'Symbol', id: nanoid() },
     { name: 'Supply', id: nanoid() },
     { name: 'PriceUsd', id: nanoid() },
+    { name: 'Add Coin', id: nanoid() },
 ]

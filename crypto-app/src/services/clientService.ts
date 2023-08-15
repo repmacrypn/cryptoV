@@ -1,19 +1,16 @@
 import axios from 'axios'
-/* import { CryptoCoin } from 'src/types/cryptocoin.interface' */
+import { AssetsResponse } from 'src/types/responses/assetsResponse'
 
-export const API_URL = 'api.coincap.io/v2/'
+export const API_URL = 'https://api.coincap.io/v2/'
+export const total = 100
 
 const instance = axios.create({
     baseURL: API_URL,
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept-Encoding': 'gzip',
-    },
 })
 
 export const cryptoAPI = {
-    async fetchAssets() {
-        const response = await instance.get('assets')
-        return response.data
+    async fetchAssets(offset = 0) {
+        const response = await instance.get<AssetsResponse>(`assets?offset=${offset}&limit=${total}`)
+        return response.data.data
     },
 }

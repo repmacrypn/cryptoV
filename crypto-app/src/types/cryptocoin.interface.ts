@@ -1,7 +1,7 @@
 export interface CryptoCoin {
     id: string;
-    symbol: string;
     name: string;
+    symbol: string;
     supply: string;
     priceUsd: string;
 }
