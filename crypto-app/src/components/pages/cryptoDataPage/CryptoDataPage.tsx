@@ -1,7 +1,7 @@
 export const CryptoDataPage = () => {
     return (
         <div>
-            overviewPage
+            CryptoDataPage
         </div>
     )
 }
