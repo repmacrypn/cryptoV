@@ -8,6 +8,8 @@ import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { HISTORY_INTERVAL } from 'src/utils/constantData'
 import { Chart, registerables } from 'chart.js'
 
+//сделать page более глобальным чтоб пагинация в 0 не уходила
+
 export const CryptoDataPage = () => {
     const { id } = useParams()
 
@@ -32,7 +34,7 @@ export const CryptoDataPage = () => {
         labels,
         datasets: [
             {
-                label: 'crypto data history',
+                label: `${asset.name} chart history for the last hour`,
                 fill: false,
                 lineTension: 0.1,
                 backgroundColor: 'rgba(75,192,192,0.4)',

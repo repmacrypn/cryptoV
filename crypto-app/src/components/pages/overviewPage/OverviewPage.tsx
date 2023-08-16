@@ -1,15 +1,17 @@
 import { SquareArrowDown } from 'tabler-icons-react'
 import { useQuery } from '@tanstack/react-query'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import s from './OverviewPage.module.scss'
 import { TableHeading, tableHeadings } from 'src/utils/cryptoTableHeaders'
 import { cryptoAPI } from 'src/services/clientService'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { TableLayout } from 'src/components/layouts/tableLayout/TableLayout'
 import { PaginationList } from 'src/components/layouts/paginlistLayout/PaginationList'
-import { PageContext } from 'src/contexts/Contexts'
+import { IsActiveContext, PageContext } from 'src/contexts/Contexts'
 import { TABLE_LIMIT, TOP_ASSETS } from 'src/utils/constantData'
 import { NavLink } from 'react-router-dom'
+import { Modal } from 'src/components/modal/Modal'
+import { useIsActiveContext } from 'src/hooks/useIsActiveContext'
 
 export const OverviewPage = () => {
     return (
@@ -25,11 +27,23 @@ export const OverviewPage = () => {
 }
 
 export const CryptoAssetsTable = () => {
+    const [isActive, setIsActive] = useState(false)
+
     return (
-        <TableLayout>
-            <TableHeadings />
-            <TableBody />
-        </TableLayout>
+        <>
+            <TableLayout>
+                <TableHeadings />
+                <IsActiveContext.Provider value={setIsActive}>
+                    <TableBody />
+                </IsActiveContext.Provider>
+            </TableLayout>
+            <Modal
+                isActive={isActive}
+                setIsActive={setIsActive}
+            >
+                <p>qq epta</p>
+            </Modal>
+        </>
     )
 }
 
@@ -91,17 +105,15 @@ const UserTableInfo = ({ asset }: { asset: CryptoCoin }) => {
         if (!isShortInfoVisible) dispatch(setIsVisible(true))
     } */
     return (
-        <NavLink to={`/cryptoDataPage/${asset.id}`}>
-            <tr
-                className={s.userTableRow}
-            >
-                <td data-th='Name:'>{asset.name}</td>
-                <td data-th='Symbol:'>{asset.symbol}</td>
-                <td data-th='Supply:'>{asset.supply}</td>
-                <td data-th='PriceUsd:'>{asset.priceUsd}</td>
-                <td data-th='Add Coin:'>+</td>
-            </tr>
-        </NavLink>
+        <tr
+            className={s.userTableRow}
+        >
+            <td data-th='Name:'>{asset.name}</td>
+            <td data-th='Symbol:'>{asset.symbol}</td>
+            <td data-th='Supply:'>{asset.supply}</td>
+            <td data-th='PriceUsd:'>{asset.priceUsd}</td>
+            <td data-th='Add Coin:'><Control /></td>
+        </tr>
     )
 }
 
@@ -126,5 +138,16 @@ export const TableHeadings = () => {
         <thead >
             <tr>{completedHeadings}</tr>
         </thead >
+    )
+}
+
+export const Control = () => {
+    const setIsActive = useIsActiveContext()
+    return (
+        <div
+            onClick={() => setIsActive(true)}
+            className={s.control}>
+            +
+        </div>
     )
 }
