@@ -8,12 +8,13 @@ import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { TableLayout } from 'src/components/layouts/tableLayout/TableLayout'
 import { PaginationList } from 'src/components/layouts/paginlistLayout/PaginationList'
 import { PageContext } from 'src/contexts/Contexts'
+import { TABLE_LIMIT, TOP_ASSETS } from 'src/utils/constantData'
 
 export const OverviewPage = () => {
     return (
         <div>
             <header>
-                current info
+                <Header />
             </header>
             <PaginationList>
                 <CryptoAssetsTable />
@@ -34,9 +35,9 @@ export const CryptoAssetsTable = () => {
 export const TableBody = () => {
     const page = useContext(PageContext)
 
-    const { data: assets = [] } = useQuery({
+    const { data: assets = [], isLoading } = useQuery({
         queryKey: ['assets', page],
-        queryFn: () => cryptoAPI.fetchAssets(page),
+        queryFn: () => cryptoAPI.fetchAssets({ offset: page, limit: TABLE_LIMIT }),
         keepPreviousData: true,
         staleTime: 1000 * 5 * 60,
     })
@@ -50,10 +51,36 @@ export const TableBody = () => {
         )
     })
 
+    if (isLoading) return <tbody>qq</tbody>
+
     return (
         <tbody>
             {assetsRows}
         </tbody>
+    )
+}
+
+export const Header = () => {
+    const { data: assets = [], isLoading } = useQuery({
+        queryKey: ['topAssets'],
+        queryFn: () => cryptoAPI.fetchAssets({ offset: 0, ids: TOP_ASSETS }),
+        staleTime: Infinity,
+    })
+
+    const topAssets = assets.map((asset: CryptoCoin) => {
+        return (
+            <div key={asset.id}>
+                {asset.name} {asset.symbol}{'  '}
+            </div>
+        )
+    })
+
+    if (isLoading) return <div>qq</div>
+
+    return (
+        <header>
+            {topAssets}
+        </header>
     )
 }
 

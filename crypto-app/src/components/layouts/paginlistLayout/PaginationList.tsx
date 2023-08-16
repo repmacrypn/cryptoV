@@ -3,7 +3,7 @@ import ReactPaginate from 'react-paginate'
 import { useState } from 'react'
 import s from './PaginationList.module.scss'
 import { PageContext } from 'src/contexts/Contexts'
-import { BUTTONSNUM } from 'src/utils/paginationData'
+import { BUTTONS_NUM } from 'src/utils/constantData'
 
 export const PaginationList = ({ children }: { children: React.ReactNode }) => {
     const [page, setPage] = useState(0)
@@ -17,7 +17,6 @@ export const PaginationList = ({ children }: { children: React.ReactNode }) => {
             <PageContext.Provider value={page}>
                 {children}
             </PageContext.Provider>
-            <span>Current Page: {page + 1}</span>
             <ReactPaginate
                 previousLabel={
                     <ChevronLeft
@@ -35,9 +34,9 @@ export const PaginationList = ({ children }: { children: React.ReactNode }) => {
                         width={20}
                     />
                 }
-                breakLabel={null}
-                pageCount={BUTTONSNUM}
-                marginPagesDisplayed={0}
+                breakLabel={'...'}
+                pageCount={BUTTONS_NUM}
+                marginPagesDisplayed={2}
                 pageRangeDisplayed={4}
                 onPageChange={handlePageChange}
                 forcePage={page}
