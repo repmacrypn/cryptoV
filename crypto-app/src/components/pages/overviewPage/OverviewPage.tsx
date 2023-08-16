@@ -104,16 +104,51 @@ const UserTableInfo = ({ asset }: { asset: CryptoCoin }) => {
         dispatch(setCurrentUser(user))
         if (!isShortInfoVisible) dispatch(setIsVisible(true))
     } */
+
     return (
         <tr
             className={s.userTableRow}
         >
-            <td data-th='Name:'>{asset.name}</td>
-            <td data-th='Symbol:'>{asset.symbol}</td>
-            <td data-th='Supply:'>{asset.supply}</td>
-            <td data-th='PriceUsd:'>{asset.priceUsd}</td>
-            <td data-th='Add Coin:'><Control /></td>
+            <Th
+                dataTh='Name:'
+                value={asset.name}
+                id={asset.id}
+            />
+            <Th
+                dataTh='Symbol:'
+                value={asset.symbol}
+                id={asset.id}
+            />
+            <Th
+                dataTh='Supply:'
+                value={asset.supply}
+                id={asset.id}
+            />
+            <Th
+                dataTh='PriceUsd:'
+                value={asset.priceUsd}
+                id={asset.id}
+            />
+            <td data-th='Add Coin:'>
+                <Control />
+            </td>
         </tr>
+    )
+}
+
+interface ThProps {
+    dataTh: string;
+    value: string;
+    id: string;
+}
+
+export const Th = ({ dataTh, value, id }: ThProps) => {
+    return (
+        <td data-th={dataTh}>
+            <NavLink to={`/cryptoDataPage/${id}`}>
+                {value}
+            </NavLink>
+        </td>
     )
 }
 
