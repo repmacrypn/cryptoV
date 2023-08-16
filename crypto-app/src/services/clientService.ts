@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { AssetByIdResponse } from 'src/types/responses/assetByIdResponse.interface'
+import { AssetHistoryResponse } from 'src/types/responses/assetHistory.interface'
 import { AssetsResponse } from 'src/types/responses/assetsResponse'
 
 export const API_URL = 'https://api.coincap.io/v2/'
@@ -21,6 +22,10 @@ export const cryptoAPI = {
     },
     async fetchAssetById(id: string) {
         const response = await instance.get<AssetByIdResponse>(`assets/${id}`)
+        return response.data.data
+    },
+    async fetchAssetHistory(id: string, historyInterval: string) {
+        const response = await instance.get<AssetHistoryResponse>(`assets/${id}/history?interval=${historyInterval}`)
         return response.data.data
     },
 }
