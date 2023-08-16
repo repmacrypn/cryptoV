@@ -3,5 +3,10 @@ export interface CryptoCoin {
     name: string;
     symbol: string;
     supply: string;
+    maxSupply: string;
     priceUsd: string;
+    marketCapUsd: string;
+    volumeUsd24Hr: string;
+    changePercent24Hr: string;
+    vwap24Hr: string;
 }

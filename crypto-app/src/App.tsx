@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Navigate to='/overviewPage' />} />
         < Route path='/overviewPage' element={< OverviewPage />} />
-        < Route path='/cryptoDataPage' element={< CryptoDataPage />} />
+        < Route path='/cryptoDataPage/:id' element={< CryptoDataPage />} />
         < Route path='*' element={< PageNotFound />} />
       </Routes>
     </div>

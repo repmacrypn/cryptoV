@@ -9,6 +9,7 @@ import { TableLayout } from 'src/components/layouts/tableLayout/TableLayout'
 import { PaginationList } from 'src/components/layouts/paginlistLayout/PaginationList'
 import { PageContext } from 'src/contexts/Contexts'
 import { TABLE_LIMIT, TOP_ASSETS } from 'src/utils/constantData'
+import { NavLink } from 'react-router-dom'
 
 export const OverviewPage = () => {
     return (
@@ -90,16 +91,17 @@ const UserTableInfo = ({ asset }: { asset: CryptoCoin }) => {
         if (!isShortInfoVisible) dispatch(setIsVisible(true))
     } */
     return (
-        <tr
-            className={s.userTableRow}
-        /* onClick={getUserShortInfo} */
-        >
-            <td data-th='Name:'>{asset.name}</td>
-            <td data-th='Symbol:'>{asset.symbol}</td>
-            <td data-th='Supply:'>{asset.supply}</td>
-            <td data-th='PriceUsd:'>{asset.priceUsd}</td>
-            <td data-th='Add Coin:'>+</td>
-        </tr>
+        <NavLink to={`/cryptoDataPage/${asset.id}`}>
+            <tr
+                className={s.userTableRow}
+            >
+                <td data-th='Name:'>{asset.name}</td>
+                <td data-th='Symbol:'>{asset.symbol}</td>
+                <td data-th='Supply:'>{asset.supply}</td>
+                <td data-th='PriceUsd:'>{asset.priceUsd}</td>
+                <td data-th='Add Coin:'>+</td>
+            </tr>
+        </NavLink>
     )
 }
 
