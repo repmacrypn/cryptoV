@@ -7,23 +7,36 @@ import { cryptoAPI } from 'src/services/clientService'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { TableLayout } from 'src/components/layouts/tableLayout/TableLayout'
 import { PaginationList } from 'src/components/layouts/paginlistLayout/PaginationList'
-import { /* IsActiveContext, */ PageContext } from 'src/contexts/Contexts'
+import { PageContext, PortfolioAssetsContext } from 'src/contexts/Contexts'
 import { TABLE_LIMIT, TOP_ASSETS } from 'src/utils/constantData'
 import { NavLink } from 'react-router-dom'
 import { Modal } from 'src/components/modal/Modal'
-/* import { useIsActiveContext } from 'src/hooks/useIsActiveContext' */
 import { SubmitField } from 'src/components/submit field/SubmitField'
+/* import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext' */
+import { PortfolioAsset } from 'src/types/PortfolioAsset.interface'
+import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
 
 export const OverviewPage = () => {
+    const portfolioArray: PortfolioAsset[] = []
+
+    const keys: string[] = Object.keys(localStorage)
+    for (const key of keys) {
+        portfolioArray.push(JSON.parse(localStorage.getItem(key)!))
+    }
+
+    const [portfolioAssets, setPortfolioAssets] = useState<PortfolioAsset[]>(portfolioArray)
     return (
-        <div>
-            <header>
-                <Header />
-            </header>
-            <PaginationList>
-                <CryptoAssetsTable />
-            </PaginationList>
-        </div>
+        <PortfolioAssetsContext.Provider value={{ portfolioAssets, setPortfolioAssets }}>
+            <div>
+                <header>
+                    <Header />
+                    <PortfolioWrapper />
+                </header>
+                <PaginationList>
+                    <CryptoAssetsTable />
+                </PaginationList>
+            </div>
+        </PortfolioAssetsContext.Provider>
     )
 }
 
@@ -91,11 +104,6 @@ export const Header = () => {
 }
 
 const UserTableInfo = ({ asset }: { asset: CryptoCoin }) => {
-    /* const getUserShortInfo = () => {
-        dispatch(setCurrentUser(user))
-        if (!isShortInfoVisible) dispatch(setIsVisible(true))
-    } */
-
     return (
         <tr
             className={s.userTableRow}
@@ -120,15 +128,6 @@ const UserTableInfo = ({ asset }: { asset: CryptoCoin }) => {
                 value={asset.priceUsd}
                 id={asset.id}
             />
-            {/* <td data-th='Add Coin:'>
-                <Control />
-                <Modal
-                    isActive={isActive}
-                    setIsActive={setIsActive}
-                >
-                    <SubmitField portfolioAsset={asset} />
-                </Modal>
-            </td> */}
             <td>
                 <ControlWrapper
                     asset={asset}
@@ -201,12 +200,52 @@ interface ControlProps {
 }
 
 export const Control = ({ setIsActive }: ControlProps) => {
-    /* const setIsActive = useIsActiveContext() */
     return (
         <div
             onClick={() => setIsActive(true)}
             className={s.control}>
             +
         </div>
+    )
+}
+
+export const PortfolioWrapper = () => {
+    const [isActive, setIsActive] = useState(false)
+
+    return (
+        <div>
+            <div onClick={() => setIsActive(true)}>
+                dratuti
+            </div>
+            <Modal
+                isActive={isActive}
+                setIsActive={setIsActive}
+            >
+                <Portfolio />
+            </Modal>
+        </div>
+    )
+}
+
+export const Portfolio = () => {
+    const { portfolioAssets, setPortfolioAssets } = usePortfolioAssetsContext()
+
+    const handleDeleteClick = (id: string) => {
+        setPortfolioAssets(portfolioAssets.filter((p: PortfolioAsset) => p.id !== id))
+        localStorage.removeItem(id)
+    }
+
+    const portfolioAssetsResult = portfolioAssets.map((asset: PortfolioAsset) =>
+        <div key={asset.id}>
+            <span>{asset.count}</span>{': '}
+            <span>{asset.name}</span>{' '}
+            <span>{asset.symbol}</span>
+            <span>{asset.priceUsd}</span>
+            <span onClick={() => handleDeleteClick(asset.id)}>delete</span>
+        </div>,
+    )
+
+    return (
+        <div>{portfolioAssetsResult}</div>
     )
 }
