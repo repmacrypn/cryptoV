@@ -129,18 +129,20 @@ const UserTableInfo = ({ asset }: { asset: CryptoCoin }) => {
                     <SubmitField portfolioAsset={asset} />
                 </Modal>
             </td> */}
-            <ControlTd
-                asset={asset}
-            />
+            <td>
+                <ControlWrapper
+                    asset={asset}
+                />
+            </td>
         </tr>
     )
 }
 
-export const ControlTd = ({ asset }: { asset: CryptoCoin }) => {
+export const ControlWrapper = ({ asset }: { asset: CryptoCoin }) => {
     const [isActive, setIsActive] = useState(false)
 
     return (
-        <td data-th='Add Coin:'>
+        <div data-th='Add Coin:'>
             <Control
                 setIsActive={setIsActive}
             />
@@ -150,7 +152,7 @@ export const ControlTd = ({ asset }: { asset: CryptoCoin }) => {
             >
                 <SubmitField portfolioAsset={asset} />
             </Modal>
-        </td>
+        </div>
     )
 }
 

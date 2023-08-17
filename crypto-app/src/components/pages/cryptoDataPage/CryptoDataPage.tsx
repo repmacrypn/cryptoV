@@ -7,6 +7,7 @@ import { AssetHistory } from 'src/types/assetHistory.interface'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { HISTORY_INTERVAL } from 'src/utils/constantData'
 import { Chart, registerables } from 'chart.js'
+import { ControlWrapper } from '../overviewPage/OverviewPage'
 
 //сделать page более глобальным чтоб пагинация в 0 не уходила
 
@@ -70,7 +71,9 @@ export const CryptoDataPage = () => {
                 <div>changePercent24Hr: {asset.changePercent24Hr}</div>
                 <div>vwap24Hr: {asset.vwap24Hr}</div>
                 <div>volumeUsd24Hr: {asset.volumeUsd24Hr}</div>
-                <div>+</div>
+                <ControlWrapper
+                    asset={asset}
+                />
             </div>
             <div>
                 <Line data={data} />
