@@ -7,11 +7,12 @@ import { cryptoAPI } from 'src/services/clientService'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { TableLayout } from 'src/components/layouts/tableLayout/TableLayout'
 import { PaginationList } from 'src/components/layouts/paginlistLayout/PaginationList'
-import { IsActiveContext, PageContext } from 'src/contexts/Contexts'
+import { /* IsActiveContext, */ PageContext } from 'src/contexts/Contexts'
 import { TABLE_LIMIT, TOP_ASSETS } from 'src/utils/constantData'
 import { NavLink } from 'react-router-dom'
 import { Modal } from 'src/components/modal/Modal'
-import { useIsActiveContext } from 'src/hooks/useIsActiveContext'
+/* import { useIsActiveContext } from 'src/hooks/useIsActiveContext' */
+import { SubmitField } from 'src/components/submit field/SubmitField'
 
 export const OverviewPage = () => {
     return (
@@ -27,22 +28,12 @@ export const OverviewPage = () => {
 }
 
 export const CryptoAssetsTable = () => {
-    const [isActive, setIsActive] = useState(false)
-
     return (
         <>
             <TableLayout>
                 <TableHeadings />
-                <IsActiveContext.Provider value={setIsActive}>
-                    <TableBody />
-                </IsActiveContext.Provider>
+                <TableBody />
             </TableLayout>
-            <Modal
-                isActive={isActive}
-                setIsActive={setIsActive}
-            >
-                <p>qq epta</p>
-            </Modal>
         </>
     )
 }
@@ -129,10 +120,37 @@ const UserTableInfo = ({ asset }: { asset: CryptoCoin }) => {
                 value={asset.priceUsd}
                 id={asset.id}
             />
-            <td data-th='Add Coin:'>
+            {/* <td data-th='Add Coin:'>
                 <Control />
-            </td>
+                <Modal
+                    isActive={isActive}
+                    setIsActive={setIsActive}
+                >
+                    <SubmitField portfolioAsset={asset} />
+                </Modal>
+            </td> */}
+            <ControlTd
+                asset={asset}
+            />
         </tr>
+    )
+}
+
+export const ControlTd = ({ asset }: { asset: CryptoCoin }) => {
+    const [isActive, setIsActive] = useState(false)
+
+    return (
+        <td data-th='Add Coin:'>
+            <Control
+                setIsActive={setIsActive}
+            />
+            <Modal
+                isActive={isActive}
+                setIsActive={setIsActive}
+            >
+                <SubmitField portfolioAsset={asset} />
+            </Modal>
+        </td>
     )
 }
 
@@ -176,8 +194,12 @@ export const TableHeadings = () => {
     )
 }
 
-export const Control = () => {
-    const setIsActive = useIsActiveContext()
+interface ControlProps {
+    setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const Control = ({ setIsActive }: ControlProps) => {
+    /* const setIsActive = useIsActiveContext() */
     return (
         <div
             onClick={() => setIsActive(true)}
