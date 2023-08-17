@@ -7,7 +7,7 @@ import { cryptoAPI } from 'src/services/clientService'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { TableLayout } from 'src/components/layouts/tableLayout/TableLayout'
 import { PaginationList } from 'src/components/layouts/paginlistLayout/PaginationList'
-import { PageContext, PortfolioAssetsContext } from 'src/contexts/Contexts'
+import { PageContext/* , PortfolioAssetsContext */ } from 'src/contexts/Contexts'
 import { TABLE_LIMIT, TOP_ASSETS } from 'src/utils/constantData'
 import { NavLink } from 'react-router-dom'
 import { Modal } from 'src/components/modal/Modal'
@@ -17,26 +17,26 @@ import { PortfolioAsset } from 'src/types/PortfolioAsset.interface'
 import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
 
 export const OverviewPage = () => {
-    const portfolioArray: PortfolioAsset[] = []
+    /* const portfolioArray: PortfolioAsset[] = []
 
     const keys: string[] = Object.keys(localStorage)
     for (const key of keys) {
         portfolioArray.push(JSON.parse(localStorage.getItem(key)!))
     }
 
-    const [portfolioAssets, setPortfolioAssets] = useState<PortfolioAsset[]>(portfolioArray)
+    const [portfolioAssets, setPortfolioAssets] = useState<PortfolioAsset[]>(portfolioArray) */
     return (
-        <PortfolioAssetsContext.Provider value={{ portfolioAssets, setPortfolioAssets }}>
-            <div>
-                <header>
-                    <Header />
-                    <PortfolioWrapper />
-                </header>
-                <PaginationList>
-                    <CryptoAssetsTable />
-                </PaginationList>
-            </div>
-        </PortfolioAssetsContext.Provider>
+        <div>
+            <header>
+                <Header />
+                <PortfolioWrapper />
+            </header>
+            <PaginationList>
+                <CryptoAssetsTable />
+            </PaginationList>
+        </div>
+        /* <PortfolioAssetsContext.Provider value={{ portfolioAssets, setPortfolioAssets }}> */
+        /* </PortfolioAssetsContext.Provider> */
     )
 }
 
