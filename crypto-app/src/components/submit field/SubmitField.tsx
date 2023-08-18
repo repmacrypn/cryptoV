@@ -5,11 +5,18 @@ import { CryptoCoin } from 'src/types/cryptocoin.interface'
 
 export const SubmitField = ({ portfolioAsset }: { portfolioAsset: CryptoCoin }) => {
     const [inputValue, setInputValue] = useState('')
-    const { portfolioAssets, setPortfolioAssets } = usePortfolioAssetsContext()
+    const { portfolioAssets, setPortfolioAssets, initialBalance, setInitialBalance } = usePortfolioAssetsContext()
 
     const handleAddButtonClick = () => {
         if (isNaN(+inputValue) || +inputValue === 0) {
             alert('Input string must be a number and not a 0!')
+            return
+        }
+
+        const totalBuyCount = +inputValue * +portfolioAsset.priceUsd
+
+        if (totalBuyCount > initialBalance) {
+            alert('Invalid operation! Replenish the balance!')
             return
         }
 
@@ -20,7 +27,6 @@ export const SubmitField = ({ portfolioAsset }: { portfolioAsset: CryptoCoin }) 
         if (asset) {
             count = asset.count + +inputValue
 
-            localStorage.removeItem(id)
             setPortfolioAssets(portfolioAssets.map((asset: PortfolioAsset) => {
                 return asset.id === id ? { ...asset, count: count! } : asset
             }))
@@ -34,13 +40,17 @@ export const SubmitField = ({ portfolioAsset }: { portfolioAsset: CryptoCoin }) 
             ])
         }
 
+        setInitialBalance(initialBalance - totalBuyCount)
+
         localStorage.setItem(id, JSON.stringify({ ...portfolioAsset, count: count || +inputValue } as PortfolioAsset))
+        localStorage.setItem('balance', String(initialBalance - totalBuyCount))
     }
 
     return (
         <div>
             <div>
-                {portfolioAsset.name}{': '}
+                {portfolioAsset.name}{'; '}
+                price: {portfolioAsset.priceUsd}
             </div>
             <input
                 value={inputValue}

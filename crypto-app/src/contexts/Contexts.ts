@@ -7,6 +7,8 @@ export const IsActiveContext = React.createContext<React.Dispatch<React.SetState
 interface IPortfolioAssetsContext {
     portfolioAssets: PortfolioAsset[];
     setPortfolioAssets: React.Dispatch<React.SetStateAction<PortfolioAsset[]>>;
+    initialBalance: number;
+    setInitialBalance: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const PortfolioAssetsContext = React.createContext<IPortfolioAssetsContext | null>(null)

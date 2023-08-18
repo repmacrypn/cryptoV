@@ -4,3 +4,5 @@ export const BUTTONS_NUM = 50
 export const TOP_ASSETS = 'bitcoin,ethereum,tether'
 
 export const HISTORY_INTERVAL = 'h1'
+
+export const BALANCE = 127

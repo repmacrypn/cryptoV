@@ -8,7 +8,7 @@ import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { TableLayout } from 'src/components/layouts/tableLayout/TableLayout'
 import { PaginationList } from 'src/components/layouts/paginlistLayout/PaginationList'
 import { PageContext/* , PortfolioAssetsContext */ } from 'src/contexts/Contexts'
-import { TABLE_LIMIT, TOP_ASSETS } from 'src/utils/constantData'
+import { BALANCE, TABLE_LIMIT, TOP_ASSETS } from 'src/utils/constantData'
 import { NavLink } from 'react-router-dom'
 import { Modal } from 'src/components/modal/Modal'
 import { SubmitField } from 'src/components/submit field/SubmitField'
@@ -29,6 +29,7 @@ export const OverviewPage = () => {
         <div>
             <header>
                 <Header />
+                <CurrentProfit />
                 <PortfolioWrapper />
             </header>
             <PaginationList>
@@ -217,6 +218,9 @@ export const PortfolioWrapper = () => {
             <div onClick={() => setIsActive(true)}>
                 dratuti
             </div>
+            <div>
+
+            </div>
             <Modal
                 isActive={isActive}
                 setIsActive={setIsActive}
@@ -227,10 +231,32 @@ export const PortfolioWrapper = () => {
     )
 }
 
+export const CurrentProfit = () => {
+    const portfolioAssets: string[] = Object.keys(localStorage)
+    console.log(portfolioAssets)
+    const { initialBalance } = usePortfolioAssetsContext()
+    const diffBalance = Math.abs(BALANCE - initialBalance)
+    const diffPercent = diffBalance / BALANCE * 100
+    const diffValue = `${diffBalance} (${diffPercent.toFixed(2)}%)`
+
+    return (
+        <div>
+            {initialBalance}{' USD '}
+            {initialBalance > BALANCE ? `+${diffValue}` : `-${diffValue}`}
+        </div>
+    )
+}
+
 export const Portfolio = () => {
-    const { portfolioAssets, setPortfolioAssets } = usePortfolioAssetsContext()
+    const { portfolioAssets, setPortfolioAssets, setInitialBalance } = usePortfolioAssetsContext()
 
     const handleDeleteClick = (id: string) => {
+        const asset: PortfolioAsset = JSON.parse(localStorage.getItem(id)!)
+        const balance: number = Number(localStorage.getItem('balance'))
+        const balanceDiff = balance + asset.count * +asset.priceUsd
+        setInitialBalance(balanceDiff)
+        localStorage.setItem('balance', String(balanceDiff))
+
         setPortfolioAssets(portfolioAssets.filter((p: PortfolioAsset) => p.id !== id))
         localStorage.removeItem(id)
     }
