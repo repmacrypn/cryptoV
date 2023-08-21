@@ -1,5 +1,4 @@
-import { CryptoCoin } from './cryptocoin.interface'
-
-export interface PortfolioAsset extends CryptoCoin {
+export interface PortfolioAsset {
     count: number;
+    priceUsd: string;
 }

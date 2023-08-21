@@ -5,18 +5,43 @@ import { OverviewPage } from './components/pages/overviewPage/OverviewPage'
 import { CryptoDataPage } from './components/pages/cryptoDataPage/CryptoDataPage'
 import { PageNotFound } from './components/pages/pageNotFound/PageNotFound'
 import { PortfolioAssetsContext } from './contexts/Contexts'
+import { useQuery } from '@tanstack/react-query'
+import { cryptoAPI } from './services/clientService'
 import { useEffect, useState } from 'react'
-import { PortfolioAsset } from './types/PortfolioAsset.interface'
+import storage from './storage/storage'
+import { CryptoCoin } from './types/cryptocoin.interface'
 import { BALANCE } from './utils/constantData'
-import { getPortfolioArray } from './utils/getPortfolioArray'
 
 function App() {
-  const [portfolioAssets, setPortfolioAssets] = useState<PortfolioAsset[]>(getPortfolioArray)
-  const [initialBalance, setInitialBalance] = useState<number>(Number(localStorage.getItem('balance')) || BALANCE)
+  const portfolioAssetsKeys: string[] = Object.keys(localStorage)
+  const ids = portfolioAssetsKeys.join(',')
+  const { data: curAssets = [] } = useQuery({
+    queryKey: ['portfolioAssets'],
+    queryFn: () => cryptoAPI.fetchAssets({ offset: 0, ids }),
+    staleTime: Infinity,
+    enabled: !!localStorage.length,
+  })
+
+  const [portfolioAssets, setPortfolioAssets] = useState<CryptoCoin[]>([] as CryptoCoin[])
+  const [initialBalance, setInitialBalance] = useState<number>(BALANCE)
 
   useEffect(() => {
-    localStorage.setItem('balance', String(initialBalance))
-  }, [initialBalance])
+    let diff = 0
+    const keys: string[] = Object.keys(localStorage)
+    for (const key of keys) {
+      diff += Number(storage.get(key)?.priceUsd) * Number(storage.get(key)?.count)
+    }
+
+    let curDiff = 0
+    for (const curAsset of curAssets) {
+      curDiff += Number(curAsset.priceUsd) * Number(storage.get(curAsset.id)?.count)
+    }
+
+    if (curAssets.length) {
+      setInitialBalance(BALANCE - 2 * diff + curDiff)
+      setPortfolioAssets(curAssets)
+    }
+  }, [curAssets])
 
   return (
     <div className='appWrapper'>

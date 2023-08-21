@@ -13,8 +13,8 @@ import { NavLink } from 'react-router-dom'
 import { Modal } from 'src/components/modal/Modal'
 import { SubmitField } from 'src/components/submit field/SubmitField'
 /* import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext' */
-import { PortfolioAsset } from 'src/types/PortfolioAsset.interface'
 import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
+import storage from 'src/storage/storage'
 
 export const OverviewPage = () => {
     /* const portfolioArray: PortfolioAsset[] = []
@@ -232,8 +232,6 @@ export const PortfolioWrapper = () => {
 }
 
 export const CurrentProfit = () => {
-    const portfolioAssets: string[] = Object.keys(localStorage)
-    console.log(portfolioAssets)
     const { initialBalance } = usePortfolioAssetsContext()
     const diffBalance = Math.abs(BALANCE - initialBalance)
     const diffPercent = diffBalance / BALANCE * 100
@@ -242,32 +240,32 @@ export const CurrentProfit = () => {
     return (
         <div>
             {initialBalance}{' USD '}
-            {initialBalance > BALANCE ? `+${diffValue}` : `-${diffValue}`}
+            {initialBalance >= BALANCE ? `+${diffValue}` : `-${diffValue}`}
         </div>
     )
 }
 
 export const Portfolio = () => {
-    const { portfolioAssets, setPortfolioAssets, setInitialBalance } = usePortfolioAssetsContext()
+    const { portfolioAssets, setPortfolioAssets, setInitialBalance, initialBalance } = usePortfolioAssetsContext()
 
     const handleDeleteClick = (id: string) => {
-        const asset: PortfolioAsset = JSON.parse(localStorage.getItem(id)!)
-        const balance: number = Number(localStorage.getItem('balance'))
-        const balanceDiff = balance + asset.count * +asset.priceUsd
-        setInitialBalance(balanceDiff)
-        localStorage.setItem('balance', String(balanceDiff))
+        const count: number | undefined = storage.get(id)?.count
+        const priceUsd: string | undefined = portfolioAssets.find((p: CryptoCoin) => p.id === id)?.priceUsd
+        const balanceDiff = initialBalance + Number(count!) * Number(priceUsd!)
 
-        setPortfolioAssets(portfolioAssets.filter((p: PortfolioAsset) => p.id !== id))
-        localStorage.removeItem(id)
+        setInitialBalance(balanceDiff)
+        setPortfolioAssets(portfolioAssets.filter((p: CryptoCoin) => p.id !== id))
+
+        storage.removeItem(id)
     }
 
-    const portfolioAssetsResult = portfolioAssets.map((asset: PortfolioAsset) =>
-        <div key={asset.id}>
-            <span>{asset.count}</span>{': '}
-            <span>{asset.name}</span>{' '}
-            <span>{asset.symbol}</span>
-            <span>{asset.priceUsd}</span>
-            <span onClick={() => handleDeleteClick(asset.id)}>delete</span>
+    const portfolioAssetsResult = portfolioAssets.map((p: CryptoCoin) =>
+        <div key={p.id}>
+            <span>{storage.get(p.id)?.count}</span>{': '}
+            <span>{p.name}</span>{' '}
+            <span>{p.symbol}</span>{' '}
+            <span>{p.priceUsd}</span>{' '}
+            <span onClick={() => handleDeleteClick(p.id)}>delete</span>
         </div>,
     )
 

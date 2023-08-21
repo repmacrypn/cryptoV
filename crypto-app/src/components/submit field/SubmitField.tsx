@@ -1,55 +1,43 @@
 import { useState } from 'react'
-import { PortfolioAsset } from 'src/types/PortfolioAsset.interface'
 import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
+import storage from 'src/storage/storage'
 
 export const SubmitField = ({ portfolioAsset }: { portfolioAsset: CryptoCoin }) => {
     const [inputValue, setInputValue] = useState('')
-    const { portfolioAssets, setPortfolioAssets, initialBalance, setInitialBalance } = usePortfolioAssetsContext()
+    const { portfolioAssets, initialBalance, setPortfolioAssets, setInitialBalance } = usePortfolioAssetsContext()
 
     const handleAddButtonClick = () => {
-        if (isNaN(+inputValue) || +inputValue === 0) {
-            alert('Input string must be a number and not a 0!')
+        const numInputValue: number = Number(inputValue)
+        const totalBuyCount: number = numInputValue * Number(portfolioAsset.priceUsd)
+
+        const id: string = portfolioAsset.id
+        const count: number | undefined = storage.get(id)?.count
+
+        if (isNaN(numInputValue) || numInputValue === 0) {
+            alert('Input string must be a number and not 0!')
             return
         }
-
-        const totalBuyCount = +inputValue * +portfolioAsset.priceUsd
 
         if (totalBuyCount > initialBalance) {
             alert('Invalid operation! Replenish the balance!')
             return
         }
 
-        let count: number | undefined
-        const id = portfolioAsset.id
-        const asset: PortfolioAsset = JSON.parse(localStorage.getItem(id)!)
-
-        if (asset) {
-            count = asset.count + +inputValue
-
-            setPortfolioAssets(portfolioAssets.map((asset: PortfolioAsset) => {
-                return asset.id === id ? { ...asset, count: count! } : asset
-            }))
+        if (count) {
+            storage.set(id, { count: numInputValue + count, priceUsd: portfolioAsset.priceUsd })
+            setInitialBalance(prev => prev - totalBuyCount /* - Number(count) * Number(portfolioAsset.priceUsd) */)
         } else {
-            setPortfolioAssets([
-                ...portfolioAssets,
-                {
-                    ...portfolioAsset,
-                    count: +inputValue,
-                },
-            ])
+            storage.set(id, { count: numInputValue, priceUsd: portfolioAsset.priceUsd })
+            setInitialBalance(prev => prev - totalBuyCount)
+            setPortfolioAssets([...portfolioAssets, portfolioAsset])
         }
-
-        setInitialBalance(initialBalance - totalBuyCount)
-
-        localStorage.setItem(id, JSON.stringify({ ...portfolioAsset, count: count || +inputValue } as PortfolioAsset))
-        localStorage.setItem('balance', String(initialBalance - totalBuyCount))
     }
 
     return (
         <div>
             <div>
-                {portfolioAsset.name}{'; '}
+                {portfolioAsset.name}{': '}
                 price: {portfolioAsset.priceUsd}
             </div>
             <input
