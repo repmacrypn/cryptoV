@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import s from './Portfolio.module.scss'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { Modal } from 'src/components/modal/Modal'
 import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
@@ -8,9 +9,12 @@ export const PortfolioWrapper = () => {
     const [isActive, setIsActive] = useState(false)
 
     return (
-        <div>
-            <div onClick={() => setIsActive(true)}>
-                portfolio
+        <>
+            <div
+                className={s.portfolioWrapper}
+                onClick={() => setIsActive(true)}
+            >
+                Portfolio
             </div>
             <Modal
                 isActive={isActive}
@@ -18,7 +22,7 @@ export const PortfolioWrapper = () => {
             >
                 <Portfolio />
             </Modal>
-        </div>
+        </>
     )
 }
 
