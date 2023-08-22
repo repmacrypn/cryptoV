@@ -7,31 +7,68 @@ export const SubmitField = ({ portfolioAsset }: { portfolioAsset: CryptoCoin }) 
     const [inputValue, setInputValue] = useState('')
     const { portfolioAssets, initialBalance, setPortfolioAssets, setInitialBalance } = usePortfolioAssetsContext()
 
+    const checkIfIsNaN = (numValue: number): boolean => {
+        if (isNaN(numValue) || numValue === 0) {
+            alert('Input string must be a number and not 0!')
+            return false
+        }
+
+        return true
+    }
+
+    const checkIfIsIsValid = (totalBuy: number, balance: number): boolean => {
+        if (totalBuy > balance) {
+            alert('Invalid operation! Replenish the balance!')
+            return false
+        }
+
+        return true
+    }
+
+    const addPortfolioData = (numValue: number, totalBuy: number): void => {
+        const id: string = portfolioAsset.id
+        const count: number | undefined = storage.get(id)?.count
+
+        if (count) {
+            storage.set(id, { count: numValue + count, priceUsd: portfolioAsset.priceUsd })
+        } else {
+            storage.set(id, { count: numValue, priceUsd: portfolioAsset.priceUsd })
+            setPortfolioAssets([...portfolioAssets, portfolioAsset])
+        }
+
+        setInitialBalance(prev => prev - totalBuy)
+    }
+
     const handleAddButtonClick = () => {
         const numInputValue: number = Number(inputValue)
         const totalBuyCount: number = numInputValue * Number(portfolioAsset.priceUsd)
 
-        const id: string = portfolioAsset.id
-        const count: number | undefined = storage.get(id)?.count
+        if (!checkIfIsNaN(numInputValue)) return
+        if (!checkIfIsIsValid(totalBuyCount, initialBalance)) return
+        addPortfolioData(numInputValue, totalBuyCount)
 
-        if (isNaN(numInputValue) || numInputValue === 0) {
+        /* const id: string = portfolioAsset.id
+        const count: number | undefined = storage.get(id)?.count */
+
+
+        /* if (isNaN(numInputValue) || numInputValue === 0) {
             alert('Input string must be a number and not 0!')
             return
-        }
+        } */
 
-        if (totalBuyCount > initialBalance) {
+        /* if (totalBuyCount > initialBalance) {
             alert('Invalid operation! Replenish the balance!')
             return
-        }
+        } */
 
-        if (count) {
+        /* if (count) {
             storage.set(id, { count: numInputValue + count, priceUsd: portfolioAsset.priceUsd })
-            setInitialBalance(prev => prev - totalBuyCount /* - Number(count) * Number(portfolioAsset.priceUsd) */)
+            setInitialBalance(prev => prev - totalBuyCount)
         } else {
             storage.set(id, { count: numInputValue, priceUsd: portfolioAsset.priceUsd })
             setInitialBalance(prev => prev - totalBuyCount)
             setPortfolioAssets([...portfolioAssets, portfolioAsset])
-        }
+        } */
     }
 
     return (

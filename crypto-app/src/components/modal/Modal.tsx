@@ -1,7 +1,4 @@
-/* import { useState } from 'react' */
 import s from './Modal.module.scss'
-/* import { PortfolioAssetsContext } from 'src/contexts/Contexts'
-import { PortfolioAsset } from 'src/types/PortfolioAsset.interface' */
 
 interface ModalProps {
     isActive: boolean;
@@ -20,8 +17,6 @@ export const Modal = ({ isActive, setIsActive, children }: ModalProps) => {
                 onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
             >
                 {children}
-                {/* <PortfolioAssetsContext.Provider value={{ portfolioAssets, setPortfolioAssets }}> */}
-                {/* </PortfolioAssetsContext.Provider> */}
             </div>
         </div>
     )

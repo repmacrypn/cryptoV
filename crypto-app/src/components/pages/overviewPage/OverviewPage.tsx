@@ -1,43 +1,30 @@
 import { SquareArrowDown } from 'tabler-icons-react'
 import { useQuery } from '@tanstack/react-query'
 import { useContext, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import s from './OverviewPage.module.scss'
 import { TableHeading, tableHeadings } from 'src/utils/cryptoTableHeaders'
 import { cryptoAPI } from 'src/services/clientService'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { TableLayout } from 'src/components/layouts/tableLayout/TableLayout'
 import { PaginationList } from 'src/components/layouts/paginlistLayout/PaginationList'
-import { PageContext/* , PortfolioAssetsContext */ } from 'src/contexts/Contexts'
+import { PageContext } from 'src/contexts/Contexts'
 import { BALANCE, TABLE_LIMIT, TOP_ASSETS } from 'src/utils/constantData'
-import { NavLink } from 'react-router-dom'
 import { Modal } from 'src/components/modal/Modal'
 import { SubmitField } from 'src/components/submit field/SubmitField'
-/* import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext' */
 import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
 import storage from 'src/storage/storage'
 
 export const OverviewPage = () => {
-    /* const portfolioArray: PortfolioAsset[] = []
-
-    const keys: string[] = Object.keys(localStorage)
-    for (const key of keys) {
-        portfolioArray.push(JSON.parse(localStorage.getItem(key)!))
-    }
-
-    const [portfolioAssets, setPortfolioAssets] = useState<PortfolioAsset[]>(portfolioArray) */
     return (
         <div>
-            <header>
-                <Header />
-                <CurrentProfit />
-                <PortfolioWrapper />
-            </header>
+            <Header />
+            <CurrentProfit />
+            <PortfolioWrapper />
             <PaginationList>
                 <CryptoAssetsTable />
             </PaginationList>
         </div>
-        /* <PortfolioAssetsContext.Provider value={{ portfolioAssets, setPortfolioAssets }}> */
-        /* </PortfolioAssetsContext.Provider> */
     )
 }
 
@@ -216,10 +203,7 @@ export const PortfolioWrapper = () => {
     return (
         <div>
             <div onClick={() => setIsActive(true)}>
-                dratuti
-            </div>
-            <div>
-
+                portfolio assets
             </div>
             <Modal
                 isActive={isActive}
@@ -233,6 +217,7 @@ export const PortfolioWrapper = () => {
 
 export const CurrentProfit = () => {
     const { initialBalance } = usePortfolioAssetsContext()
+
     const diffBalance = Math.abs(BALANCE - initialBalance)
     const diffPercent = diffBalance / BALANCE * 100
     const diffValue = `${diffBalance} (${diffPercent.toFixed(2)}%)`
