@@ -1,0 +1,13 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #F7F7F8;
+}
+
+.appWrapper {
+    height: var(--page-height);
+    width: 100vw;
+}

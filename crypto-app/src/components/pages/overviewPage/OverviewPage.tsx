@@ -9,11 +9,12 @@ import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { TableLayout } from 'src/components/layouts/tableLayout/TableLayout'
 import { PaginationList } from 'src/components/layouts/paginlistLayout/PaginationList'
 import { PageContext } from 'src/contexts/Contexts'
-import { BALANCE, TABLE_LIMIT, TOP_ASSETS } from 'src/utils/constantData'
+import { BALANCE, TABLE_LIMIT } from 'src/utils/constantData'
 import { Modal } from 'src/components/modal/Modal'
 import { SubmitField } from 'src/components/submit field/SubmitField'
 import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
 import storage from 'src/storage/storage'
+import { Header } from './header/Header'
 
 export const OverviewPage = () => {
     return (
@@ -64,30 +65,6 @@ export const TableBody = () => {
         <tbody>
             {assetsRows}
         </tbody>
-    )
-}
-
-export const Header = () => {
-    const { data: assets = [], isLoading } = useQuery({
-        queryKey: ['topAssets'],
-        queryFn: () => cryptoAPI.fetchAssets({ offset: 0, ids: TOP_ASSETS }),
-        staleTime: Infinity,
-    })
-
-    const topAssets = assets.map((asset: CryptoCoin) => {
-        return (
-            <div key={asset.id}>
-                {asset.name} {asset.symbol}{'  '}
-            </div>
-        )
-    })
-
-    if (isLoading) return <div>qq</div>
-
-    return (
-        <header>
-            {topAssets}
-        </header>
     )
 }
 

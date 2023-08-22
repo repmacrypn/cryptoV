@@ -1,0 +1,31 @@
+@import 'src/styles/variables/variables';
+
+$headerMargin: 8px 6px;
+
+.header {
+    display: flex;
+    justify-content: space-around;
+    padding: 25px 10px;
+    margin: $headerMargin;
+    background-color: $bgc;
+    border-radius: $br;
+    box-shadow: 0 6px 4px rgba(0, 0, 255, 0.448);
+
+    .topAsset {
+        font-weight: 600;
+        font-size: 20px;
+
+        .stick {
+            vertical-align: top;
+        }
+    }
+}
+
+.loadingHeader {
+    height: 80px;
+    border-radius: $br;
+    margin: $headerMargin;
+    background-color: rgb(225, 221, 221);
+    box-shadow: 0 6px 4px rgb(174, 174, 233);
+    color: white;
+}

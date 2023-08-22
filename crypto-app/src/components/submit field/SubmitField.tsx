@@ -46,29 +46,6 @@ export const SubmitField = ({ portfolioAsset }: { portfolioAsset: CryptoCoin }) 
         if (!checkIfIsNaN(numInputValue)) return
         if (!checkIfIsIsValid(totalBuyCount, initialBalance)) return
         addPortfolioData(numInputValue, totalBuyCount)
-
-        /* const id: string = portfolioAsset.id
-        const count: number | undefined = storage.get(id)?.count */
-
-
-        /* if (isNaN(numInputValue) || numInputValue === 0) {
-            alert('Input string must be a number and not 0!')
-            return
-        } */
-
-        /* if (totalBuyCount > initialBalance) {
-            alert('Invalid operation! Replenish the balance!')
-            return
-        } */
-
-        /* if (count) {
-            storage.set(id, { count: numInputValue + count, priceUsd: portfolioAsset.priceUsd })
-            setInitialBalance(prev => prev - totalBuyCount)
-        } else {
-            storage.set(id, { count: numInputValue, priceUsd: portfolioAsset.priceUsd })
-            setInitialBalance(prev => prev - totalBuyCount)
-            setPortfolioAssets([...portfolioAssets, portfolioAsset])
-        } */
     }
 
     return (
