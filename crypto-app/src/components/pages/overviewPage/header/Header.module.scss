@@ -12,7 +12,7 @@ $headerMargin: 8px 6px;
     box-shadow: 0 6px 4px rgba(0, 0, 255, 0.448);
 
     .topAsset {
-        font-weight: 600;
+        font-weight: $bold;
         font-size: 20px;
 
         .stick {

@@ -9,23 +9,25 @@ import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { TableLayout } from 'src/components/layouts/tableLayout/TableLayout'
 import { PaginationList } from 'src/components/layouts/paginlistLayout/PaginationList'
 import { PageContext } from 'src/contexts/Contexts'
-import { BALANCE, TABLE_LIMIT } from 'src/utils/constantData'
+import { TABLE_LIMIT } from 'src/utils/constantData'
 import { Modal } from 'src/components/modal/Modal'
 import { SubmitField } from 'src/components/submit field/SubmitField'
-import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
-import storage from 'src/storage/storage'
 import { Header } from './header/Header'
+import { CurrentProfit } from './profit/CurrentProfit'
+import { PortfolioWrapper } from './portfolio/Portfolio'
 
 export const OverviewPage = () => {
     return (
-        <div>
+        <>
             <Header />
-            <CurrentProfit />
-            <PortfolioWrapper />
+            <div className={s.portfolioWrapper}>
+                <CurrentProfit />
+                <PortfolioWrapper />
+            </div>
             <PaginationList>
                 <CryptoAssetsTable />
             </PaginationList>
-        </div>
+        </>
     )
 }
 
@@ -171,67 +173,5 @@ export const Control = ({ setIsActive }: ControlProps) => {
             className={s.control}>
             +
         </div>
-    )
-}
-
-export const PortfolioWrapper = () => {
-    const [isActive, setIsActive] = useState(false)
-
-    return (
-        <div>
-            <div onClick={() => setIsActive(true)}>
-                portfolio assets
-            </div>
-            <Modal
-                isActive={isActive}
-                setIsActive={setIsActive}
-            >
-                <Portfolio />
-            </Modal>
-        </div>
-    )
-}
-
-export const CurrentProfit = () => {
-    const { initialBalance } = usePortfolioAssetsContext()
-
-    const diffBalance = Math.abs(BALANCE - initialBalance)
-    const diffPercent = diffBalance / BALANCE * 100
-    const diffValue = `${diffBalance} (${diffPercent.toFixed(2)}%)`
-
-    return (
-        <div>
-            {initialBalance}{' USD '}
-            {initialBalance >= BALANCE ? `+${diffValue}` : `-${diffValue}`}
-        </div>
-    )
-}
-
-export const Portfolio = () => {
-    const { portfolioAssets, setPortfolioAssets, setInitialBalance, initialBalance } = usePortfolioAssetsContext()
-
-    const handleDeleteClick = (id: string) => {
-        const count: number | undefined = storage.get(id)?.count
-        const priceUsd: string | undefined = portfolioAssets.find((p: CryptoCoin) => p.id === id)?.priceUsd
-        const balanceDiff = initialBalance + Number(count!) * Number(priceUsd!)
-
-        setInitialBalance(balanceDiff)
-        setPortfolioAssets(portfolioAssets.filter((p: CryptoCoin) => p.id !== id))
-
-        storage.removeItem(id)
-    }
-
-    const portfolioAssetsResult = portfolioAssets.map((p: CryptoCoin) =>
-        <div key={p.id}>
-            <span>{storage.get(p.id)?.count}</span>{': '}
-            <span>{p.name}</span>{' '}
-            <span>{p.symbol}</span>{' '}
-            <span>{p.priceUsd}</span>{' '}
-            <span onClick={() => handleDeleteClick(p.id)}>delete</span>
-        </div>,
-    )
-
-    return (
-        <div>{portfolioAssetsResult}</div>
     )
 }

@@ -1,0 +1,13 @@
+@import 'src/styles/variables/variables';
+
+.profit {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.balanceTitle {
+    font-weight: $bold;
+    color: $font-marked;
+    border-bottom: 3px solid $font-marked;
+}
