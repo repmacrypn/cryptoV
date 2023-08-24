@@ -1,8 +1,8 @@
 /* eslint-disable indent */
 import { Navigate, Route, Routes } from 'react-router-dom'
 import './App.scss'
-import { OverviewPage } from './components/pages/overviewPage/OverviewPage'
-import { CryptoDataPage } from './components/pages/cryptoDataPage/CryptoDataPage'
+import { OverviewPage } from './pages/overviewPage/OverviewPage'
+import { CryptoDataPage } from './pages/cryptoDataPage/CryptoDataPage'
 import { PageNotFound } from './components/pages/pageNotFound/PageNotFound'
 import { PortfolioAssetsContext } from './contexts/Contexts'
 import { useQuery } from '@tanstack/react-query'
