@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { ChartDataset } from 'chart.js'
+import { Chart, registerables } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 import { NavLink, useParams } from 'react-router-dom'
 import { cryptoAPI } from 'src/services/clientService'
 import { AssetHistory } from 'src/types/assetHistory.interface'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { HISTORY_INTERVAL } from 'src/utils/constantData'
-import { Chart, registerables } from 'chart.js'
-import { ControlWrapper } from '../overviewPage/OverviewPage'
+import { ControlWrapper } from 'src/components/control/Control'
 
 //сделать page более глобальным чтоб пагинация в 0 не уходила
 
