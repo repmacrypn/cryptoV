@@ -16,18 +16,3 @@ $br-submit: 8px;
     border: 2px solid;
     border-radius: $br-submit;
 }
-
-.button {
-    align-self: center;
-    height: 35px;
-    width: 60px;
-    background-color: $hovered;
-    border-radius: $br-submit;
-    border: none;
-    color: white;
-
-    &:hover {
-        background-color: #064d64;
-        cursor: pointer;
-    }
-}

@@ -4,6 +4,7 @@ import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { Modal } from 'src/components/modal/Modal'
 import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
 import storage from 'src/storage/storage'
+import { Button } from 'src/components/buttons/Button'
 
 export const PortfolioWrapper = () => {
     const [isActive, setIsActive] = useState(false)
@@ -54,12 +55,10 @@ export const Portfolio = () => {
                 <div>{p.symbol}</div>
                 <div>{p.priceUsd}</div>
             </div>
-            <button
-                className={s.button}
-                onClick={() => handleDeleteClick(p.id)}
-            >
-                delete
-            </button>
+            <Button
+                text='Delete'
+                handleButtonClick={() => handleDeleteClick(p.id)}
+            />
         </div>,
     )
 

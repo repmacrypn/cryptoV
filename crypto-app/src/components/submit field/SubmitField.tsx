@@ -3,6 +3,7 @@ import s from './SubmitField.module.scss'
 import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import storage from 'src/storage/storage'
+import { Button } from '../buttons/Button'
 
 export const SubmitField = ({ portfolioAsset }: { portfolioAsset: CryptoCoin }) => {
     const [inputValue, setInputValue] = useState('')
@@ -62,12 +63,10 @@ export const SubmitField = ({ portfolioAsset }: { portfolioAsset: CryptoCoin }) 
                     placeholder='Enter total buy...'
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
                 />
-                <button
-                    className={s.button}
-                    onClick={handleAddButtonClick}
-                >
-                    Add
-                </button>
+                <Button
+                    text='Add'
+                    handleButtonClick={handleAddButtonClick}
+                />
             </div>
         </div>
     )

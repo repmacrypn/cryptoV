@@ -1,0 +1,16 @@
+@import '../../styles/variables/variables';
+
+.button {
+    align-self: center;
+    height: 35px;
+    width: 60px;
+    background-color: $hovered;
+    border-radius: 6px;
+    border: none;
+    color: white;
+
+    &:hover {
+        background-color: #064d64;
+        cursor: pointer;
+    }
+}
