@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import s from './Portfolio.module.scss'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { Modal } from 'src/components/modal/Modal'
@@ -30,13 +30,13 @@ export const PortfolioWrapper = () => {
 export const Portfolio = () => {
     const { portfolioAssets, initialBalance, setPortfolioAssets, setInitialBalance } = usePortfolioAssetsContext()
 
-    const getBalanceDiff = (id: string): number => {
+    const getBalanceDiff = useMemo(() => (id: string): number => {
         const count: number | undefined = storage.get(id)?.count
         const priceUsd: string | undefined = portfolioAssets.find((p: CryptoCoin) => p.id === id)?.priceUsd
         const balanceDiff = initialBalance + Number(count!) * Number(priceUsd!)
 
         return balanceDiff
-    }
+    }, [initialBalance, portfolioAssets])
 
     const handleDeleteClick = (id: string): void => {
         const balanceDiff = getBalanceDiff(id)

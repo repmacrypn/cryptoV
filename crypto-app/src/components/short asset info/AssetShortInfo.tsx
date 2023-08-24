@@ -4,7 +4,6 @@ import { CryptoCoin } from 'src/types/cryptocoin.interface'
 export const AssetShortInfo = ({ asset }: { asset: CryptoCoin }) => {
     const assetInfo = Object.entries(asset).map((a: [string, string]) => {
         if (a[0] === 'explorer') return
-
         return (
             <AssetInfo
                 key={a[0]}

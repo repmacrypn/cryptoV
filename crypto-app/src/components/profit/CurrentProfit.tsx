@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import s from './CurrentProfit.module.scss'
 import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
 import { BALANCE } from 'src/utils/constantData'
@@ -13,7 +14,7 @@ export const CurrentProfit = () => {
         return diffValue
     }
 
-    const diffValue = getAssetsProfit(initialBalance)
+    const diffValue = useMemo(() => getAssetsProfit(initialBalance), [initialBalance])
 
     return (
         <div className={s.profit}>
