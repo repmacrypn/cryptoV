@@ -9,3 +9,42 @@
     background-color: $bgc;
     padding: 30px;
 }
+
+@media (max-width: 860px) and (min-width: 320px) {
+    .table {
+        padding: 0;
+        width: 100%;
+
+        thead {
+            display: none;
+        }
+
+        tr {
+            display: block;
+            border-top: 2px solid black;
+
+            &:first-of-type {
+                border-top: none;
+            }
+
+            &:nth-child(even) {
+                background-color: rgba(54, 38, 167, 0.1);
+            }
+        }
+
+        td {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+
+            &:first-of-type {
+                align-items: center;
+            }
+
+            &::before {
+                content: attr(data-th);
+                font-weight: 700;
+            }
+        }
+    }
+}

@@ -88,8 +88,8 @@ const UserTableInfo = ({ asset }: { asset: CryptoCoin }) => {
                 id={asset.id}
             />
             <Td
-                dataTh='Supply:'
-                value={asset.supply}
+                dataTh='Vwap24Hr:'
+                value={asset.vwap24Hr}
                 id={asset.id}
             />
             <Td

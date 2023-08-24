@@ -30,6 +30,16 @@ td.assetTd {
             color: $hovered;
             text-decoration: solid;
             border-bottom: 1px solid $hovered;
+
+            &:hover {
+                color: $font-marked;
+                border-color: $font-marked;
+            }
+
+            &:visited {
+                color: #3626A7;
+                border-color: #3626A7;
+            }
         }
     }
 }
