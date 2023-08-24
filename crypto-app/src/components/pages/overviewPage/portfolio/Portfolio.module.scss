@@ -17,3 +17,31 @@
         cursor: pointer;
     }
 }
+
+.asset {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.button {
+    align-self: center;
+    height: 35px;
+    width: 60px;
+    background-color: $hovered;
+    border-radius: 6px;
+    border: none;
+    color: white;
+
+    &:hover {
+        background-color: #064d64;
+        cursor: pointer;
+    }
+}
+
+.assetContent {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}

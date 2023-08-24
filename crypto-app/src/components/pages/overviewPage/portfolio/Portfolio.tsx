@@ -47,19 +47,26 @@ export const Portfolio = () => {
     }
 
     const portfolioAssetsResult = portfolioAssets.map((p: CryptoCoin) =>
-        <div key={p.id}>
-            <span>{storage.get(p.id)?.count}</span>{': '}
-            <span>{p.name}</span>{' '}
-            <span>{p.symbol}</span>{' '}
-            <span>{p.priceUsd}</span>{' '}
-            <span onClick={() => handleDeleteClick(p.id)}>delete</span>
+        <div className={s.asset} key={p.id}>
+            <div className={s.assetContent}>
+                <div>count: {storage.get(p.id)?.count} — </div>
+                <div>{p.name}</div>
+                <div>{p.symbol}</div>
+                <div>{p.priceUsd}</div>
+            </div>
+            <button
+                className={s.button}
+                onClick={() => handleDeleteClick(p.id)}
+            >
+                delete
+            </button>
         </div>,
     )
 
     return (
-        <div>
+        <>
             {portfolioAssetsResult.length ?
-                portfolioAssetsResult : 'No assets in portfolio yet'}
-        </div>
+                portfolioAssetsResult : 'No assets in portfolio yet :('}
+        </>
     )
 }
