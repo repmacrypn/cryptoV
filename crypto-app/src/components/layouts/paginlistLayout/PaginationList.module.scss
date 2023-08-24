@@ -1,0 +1,48 @@
+@import 'src/styles/variables/variables';
+
+$br-pagination: 6px;
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding-left: 0;
+    margin: 0 auto;
+}
+
+.navLi {
+    display: inline-block;
+    list-style: none;
+    background-color: white;
+    border-radius: $br-pagination;
+    margin: 0 2px 20px;
+}
+
+.navA {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+
+    &:hover {
+        border: 1px solid $hovered;
+        border-radius: $br-pagination;
+        cursor: pointer;
+    }
+}
+
+.moveButton {
+    border: 1px solid #E7E8EF;
+    border-radius: $br-pagination;
+    padding-bottom: 2.5px;
+}
+
+.active {
+    border: 1px solid $font-marked;
+    border-radius: $br-pagination;
+}
+
+.active:hover {
+    border-color: $hovered;
+    cursor: pointer;
+}

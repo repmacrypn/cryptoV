@@ -11,7 +11,7 @@ export const PortfolioWrapper = () => {
     return (
         <>
             <div
-                className={s.portfolioWrapper}
+                className={s.portfolio}
                 onClick={() => setIsActive(true)}
             >
                 Portfolio

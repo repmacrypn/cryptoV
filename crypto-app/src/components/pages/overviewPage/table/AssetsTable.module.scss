@@ -1,0 +1,35 @@
+@import 'src/styles/variables/variables';
+
+.tableHeadingTitle {
+    min-width: 100px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+}
+
+.icon {
+    overflow: visible !important;
+}
+
+.userTableRow:hover {
+    background-color: #F8F9FC;
+}
+
+td.assetTd {
+    text-align: center;
+    padding: 7px;
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    &:first-of-type {
+        text-align: left;
+
+        a {
+            color: $hovered;
+            text-decoration: solid;
+            border-bottom: 1px solid $hovered;
+        }
+    }
+}

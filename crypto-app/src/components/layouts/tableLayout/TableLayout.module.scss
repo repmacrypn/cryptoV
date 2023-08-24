@@ -1,0 +1,11 @@
+@import 'src/styles/variables/variables';
+
+.table {
+    width: 90%;
+    max-width: 1140px;
+    margin: 20px auto;
+    border-spacing: 0px;
+    border-radius: $br;
+    background-color: $bgc;
+    padding: 30px;
+}

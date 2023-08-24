@@ -26,7 +26,7 @@ export const TableHeadings = () => {
 
     const completedHeadings = tableHeadings.map((heading: TableHeading) => (
         <th
-            className={`${s.tableHeadingTitle}`}
+            className={s.tableHeadingTitle}
             key={heading.id}
         >
             {heading.name}
@@ -49,7 +49,7 @@ export const TableHeadings = () => {
 export const TableBody = () => {
     const page = useContext(PageContext)
 
-    const { data: assets = [], isLoading } = useQuery({
+    const { data: assets = [] } = useQuery({
         queryKey: ['assets', page],
         queryFn: () => cryptoAPI.fetchAssets({ offset: page, limit: TABLE_LIMIT }),
         keepPreviousData: true,
@@ -65,8 +65,6 @@ export const TableBody = () => {
         )
     })
 
-    if (isLoading) return <tbody>qq</tbody>
-
     return (
         <tbody>
             {assetsRows}
@@ -79,27 +77,27 @@ const UserTableInfo = ({ asset }: { asset: CryptoCoin }) => {
         <tr
             className={s.userTableRow}
         >
-            <Th
+            <Td
                 dataTh='Name:'
                 value={asset.name}
                 id={asset.id}
             />
-            <Th
+            <Td
                 dataTh='Symbol:'
                 value={asset.symbol}
                 id={asset.id}
             />
-            <Th
+            <Td
                 dataTh='Supply:'
                 value={asset.supply}
                 id={asset.id}
             />
-            <Th
+            <Td
                 dataTh='PriceUsd:'
                 value={asset.priceUsd}
                 id={asset.id}
             />
-            <td>
+            <td className={s.assetTd}>
                 <ControlWrapper
                     asset={asset}
                 />
@@ -108,15 +106,15 @@ const UserTableInfo = ({ asset }: { asset: CryptoCoin }) => {
     )
 }
 
-interface ThProps {
+interface TdProps {
     dataTh: string;
     value: string;
     id: string;
 }
 
-export const Th = ({ dataTh, value, id }: ThProps) => {
+export const Td = ({ dataTh, value, id }: TdProps) => {
     return (
-        <td data-th={dataTh}>
+        <td className={s.assetTd} data-th={dataTh}>
             <NavLink to={`/cryptoDataPage/${id}`}>
                 {value}
             </NavLink>

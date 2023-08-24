@@ -36,7 +36,7 @@ export const PaginationList = ({ children }: { children: React.ReactNode }) => {
                 }
                 breakLabel={'...'}
                 pageCount={BUTTONS_NUM}
-                marginPagesDisplayed={2}
+                marginPagesDisplayed={0}
                 pageRangeDisplayed={4}
                 onPageChange={handlePageChange}
                 forcePage={page}

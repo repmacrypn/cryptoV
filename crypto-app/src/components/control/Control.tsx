@@ -8,7 +8,7 @@ export const ControlWrapper = ({ asset }: { asset: CryptoCoin }) => {
     const [isActive, setIsActive] = useState(false)
 
     return (
-        <div data-th='Add Coin:'>
+        <div className={s.controlWrapper} data-th='Add Coin:'>
             <Control
                 setIsActive={setIsActive}
             />

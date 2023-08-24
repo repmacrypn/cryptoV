@@ -1,17 +1,19 @@
 @import 'src/styles/variables/variables';
 
-.portfolioWrapper {
+.portfolio {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: none;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 1px solid $font-marked;
+    margin: auto 0;
+    padding: 5px;
+    height: 40px;
+    border-radius: $br;
+    border: 1px solid $hovered;
 
     &:hover {
         background-color: $hovered;
+        color: white;
+        border-color: $hovered;
         cursor: pointer;
     }
 }
