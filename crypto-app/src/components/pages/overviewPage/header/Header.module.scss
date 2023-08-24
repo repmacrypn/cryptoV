@@ -14,10 +14,6 @@ $headerMargin: 8px 6px;
     .topAsset {
         font-weight: $bold;
         font-size: 20px;
-
-        .stick {
-            vertical-align: top;
-        }
     }
 }
 
@@ -28,4 +24,11 @@ $headerMargin: 8px 6px;
     background-color: rgb(225, 221, 221);
     box-shadow: 0 6px 4px rgb(174, 174, 233);
     color: white;
+}
+
+@media(min-width: 600px) {
+    .topAsset {
+        display: flex;
+        align-items: baseline;
+    }
 }

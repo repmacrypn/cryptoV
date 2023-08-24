@@ -16,8 +16,14 @@ export const Header = () => {
     const topAssets = assets.map((asset: CryptoCoin) => {
         return (
             <div key={asset.id} className={s.topAsset}>
-                {asset.name} <span className={s.stick}>|</span> {asset.symbol}{' '}
-                <TrendingUp viewBox="0 -5 24 24" />
+                <div>
+                    <span>{asset.name}</span>
+                    <span className={s.stick}>|</span>
+                </div>
+                <div>
+                    {asset.symbol}{' '}
+                    <TrendingUp viewBox="0 -5 24 24" />
+                </div>
             </div>
         )
     })
