@@ -1,10 +1,10 @@
 import s from './PageNotFound.module.scss'
-/* import { BackToSearch } from '../../profilePage/ProfilePage' */
+import { BackToMain } from 'src/components/buttons/BackToMain'
 
 export const PageNotFound = () => {
     return (
         <div className={`defaultfontS ${s.demoMessageAlertWrapper}`}>
-            {/* <BackToSearch /> */}
+            <BackToMain />
             <div className={`bold700 ${s.demoMessageAlert}`}>
                 404 NOT FOUND
             </div>

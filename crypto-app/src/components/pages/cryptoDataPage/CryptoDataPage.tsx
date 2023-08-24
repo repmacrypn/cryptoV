@@ -2,12 +2,14 @@ import { useQuery } from '@tanstack/react-query'
 import { ChartDataset } from 'chart.js'
 import { Chart, registerables } from 'chart.js'
 import { Line } from 'react-chartjs-2'
-import { NavLink, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import s from './CryptoDataPage.module.scss'
 import { cryptoAPI } from 'src/services/clientService'
 import { AssetHistory } from 'src/types/assetHistory.interface'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { HISTORY_INTERVAL } from 'src/utils/constantData'
 import { ControlWrapper } from 'src/components/control/Control'
+import { BackToMain } from 'src/components/buttons/BackToMain'
 
 //сделать page более глобальным чтоб пагинация в 0 не уходила
 
@@ -27,6 +29,60 @@ export const CryptoDataPage = () => {
         enabled: !!asset.id,
     })
 
+    const assetInfo = Object.entries(asset).map(a => {
+        if (a[0] === 'explorer') return
+
+        return (
+            <AssetInfo
+                key={a[0]}
+                text={a[0]}
+                value={a[1]}
+            />
+        )
+    })
+
+    if (isLoading) return <div>qq</div>
+
+    return (
+        <>
+            <div className={s.assetInfo}>
+                {assetInfo}
+                <ControlWrapper
+                    asset={asset}
+                />
+            </div>
+            <Diagram
+                name={asset.name}
+                history={history}
+            />
+            {/* <NavLink
+                className={s.backLink}
+                to='/overviewPage'>
+                <div className={s.back}>
+                    Back to main
+                </div>
+            </NavLink> */}
+            <BackToMain />
+        </>
+    )
+}
+
+export const AssetInfo = ({ text, value }: { text: string; value: string; }) => {
+    return (
+        <div className={s.info}>
+            <div>{text}</div>
+            <div>{value || 'none'}</div>
+        </div>
+    )
+}
+
+interface DiagramProps {
+    name: string;
+    history: AssetHistory[];
+}
+
+export const Diagram = ({ history, name }: DiagramProps) => {
+
     const labels = history.map((curTimeObj: AssetHistory) => new Date(curTimeObj.time).toLocaleString())
     const datasets = history.map((curTimeObj: AssetHistory) => curTimeObj.priceUsd)
 
@@ -35,7 +91,7 @@ export const CryptoDataPage = () => {
         labels,
         datasets: [
             {
-                label: `${asset.name} chart history for the last hour`,
+                label: `${name} chart history for the last month`,
                 fill: false,
                 lineTension: 0.1,
                 backgroundColor: 'rgba(75,192,192,0.4)',
@@ -58,31 +114,9 @@ export const CryptoDataPage = () => {
         ],
     }
 
-    if (isLoading) return <div>qq</div>
-
     return (
         <div>
-            <div>
-                <div>name: {asset.name} {asset.symbol}</div>
-                <div>supply: {asset.supply}</div>
-                <div>maxSupply: {asset.maxSupply}</div>
-                <div>priceUsd: {asset.priceUsd}</div>
-                <div>marketCapUsd: {asset.marketCapUsd}</div>
-                <div>changePercent24Hr: {asset.changePercent24Hr}</div>
-                <div>vwap24Hr: {asset.vwap24Hr}</div>
-                <div>volumeUsd24Hr: {asset.volumeUsd24Hr}</div>
-                <ControlWrapper
-                    asset={asset}
-                />
-            </div>
-            <div>
-                <Line data={data} />
-            </div>
-            <NavLink to='/overviewPage'>
-                <div>
-                    Back
-                </div>
-            </NavLink>
+            <Line data={data} />
         </div>
     )
 }
