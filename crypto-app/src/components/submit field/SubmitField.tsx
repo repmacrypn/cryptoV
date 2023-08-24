@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import s from './SubmitField.module.scss'
 import { usePortfolioAssetsContext } from 'src/hooks/usePortfolioAsssetsContext'
 import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import storage from 'src/storage/storage'
@@ -51,16 +52,23 @@ export const SubmitField = ({ portfolioAsset }: { portfolioAsset: CryptoCoin }) 
     return (
         <div>
             <div>
-                {portfolioAsset.name}{': '}
+                {portfolioAsset.name}{' '}
                 price: {portfolioAsset.priceUsd}
             </div>
-            <input
-                value={inputValue}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
-            />
-            <button onClick={handleAddButtonClick}>
-                Add
-            </button>
+            <div className={s.submitField}>
+                <input
+                    className={s.input}
+                    value={inputValue}
+                    placeholder='Enter total buy...'
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+                />
+                <button
+                    className={s.button}
+                    onClick={handleAddButtonClick}
+                >
+                    Add
+                </button>
+            </div>
         </div>
     )
 }
