@@ -10,8 +10,7 @@ import { CryptoCoin } from 'src/types/cryptocoin.interface'
 import { HISTORY_INTERVAL } from 'src/utils/constantData'
 import { ControlWrapper } from 'src/components/control/Control'
 import { BackToMain } from 'src/components/buttons/BackToMain'
-
-//сделать page более глобальным чтоб пагинация в 0 не уходила
+import { Preloader } from 'src/components/preloader/Preloader'
 
 export const CryptoDataPage = () => {
     const { id } = useParams()
@@ -41,7 +40,7 @@ export const CryptoDataPage = () => {
         )
     })
 
-    if (isLoading) return <div>qq</div>
+    if (isLoading) return <Preloader />
 
     return (
         <>
@@ -55,13 +54,6 @@ export const CryptoDataPage = () => {
                 name={asset.name}
                 history={history}
             />
-            {/* <NavLink
-                className={s.backLink}
-                to='/overviewPage'>
-                <div className={s.back}>
-                    Back to main
-                </div>
-            </NavLink> */}
             <BackToMain />
         </>
     )
