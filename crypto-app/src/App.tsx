@@ -15,6 +15,7 @@ import { BALANCE } from './utils/constantData'
 function App() {
   const portfolioAssetsKeys: string[] = Object.keys(localStorage)
   const ids = portfolioAssetsKeys.join(',')
+
   const { data: curAssets = [] } = useQuery({
     queryKey: ['portfolioAssets'],
     queryFn: () => cryptoAPI.fetchAssets({ offset: 0, ids }),
