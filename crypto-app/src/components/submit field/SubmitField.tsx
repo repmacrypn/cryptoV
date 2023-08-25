@@ -10,15 +10,15 @@ export const SubmitField = ({ portfolioAsset }: { portfolioAsset: CryptoCoin }) 
     const { portfolioAssets, initialBalance, setPortfolioAssets, setInitialBalance } = usePortfolioAssetsContext()
 
     const checkIfIsNaN = (numValue: number): boolean => {
-        if (isNaN(numValue) || numValue === 0) {
-            alert('Input string must be a number and not 0!')
+        if (isNaN(numValue) || numValue <= 0) {
+            alert('Input string must be a number and > 0!')
             return false
         }
 
         return true
     }
 
-    const checkIfIsIsValid = (totalBuy: number, balance: number): boolean => {
+    const checkIfIsValid = (totalBuy: number, balance: number): boolean => {
         if (totalBuy > balance) {
             alert('Invalid operation! Replenish the balance!')
             return false
@@ -46,7 +46,7 @@ export const SubmitField = ({ portfolioAsset }: { portfolioAsset: CryptoCoin }) 
         const totalBuyCount: number = numInputValue * Number(portfolioAsset.priceUsd)
 
         if (!checkIfIsNaN(numInputValue)) return
-        if (!checkIfIsIsValid(totalBuyCount, initialBalance)) return
+        if (!checkIfIsValid(totalBuyCount, initialBalance)) return
         addPortfolioData(numInputValue, totalBuyCount)
     }
 
