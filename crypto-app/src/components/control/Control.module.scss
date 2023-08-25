@@ -1,11 +1,9 @@
 @import 'src/styles/variables/variables';
 
+$shape: 30px;
+
 .controlWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    height: 30px;
+    width: $shape;
     margin: 5px auto;
     border-radius: $br;
     border: 1px solid black;
@@ -17,4 +15,11 @@
         color: white;
         border-color: white;
     }
+}
+
+.control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $shape;
 }
