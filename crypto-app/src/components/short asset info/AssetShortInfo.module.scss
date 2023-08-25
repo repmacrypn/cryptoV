@@ -5,3 +5,9 @@
     flex-wrap: wrap;
     margin: 10px 0;
 }
+
+@media (max-width: 400px) and (min-width: 320px) {
+    .info {
+        display: block;
+    }
+}

@@ -10,9 +10,3 @@
     border-radius: $br;
     background-color: $bgc;
 }
-
-@media (max-width: 400px) and (min-width: 320px) {
-    .info {
-        display: block;
-    }
-}

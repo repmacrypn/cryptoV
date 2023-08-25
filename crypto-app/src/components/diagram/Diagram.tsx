@@ -1,6 +1,7 @@
 import { ChartDataset } from 'chart.js'
 import { Chart, registerables } from 'chart.js'
 import { Line } from 'react-chartjs-2'
+import s from './Diagram.module.scss'
 import { AssetHistory } from 'src/types/assetHistory.interface'
 
 interface DiagramProps {
@@ -42,8 +43,8 @@ export const Diagram = ({ history, name }: DiagramProps) => {
     }
 
     return (
-        <div>
-            <Line data={data} />
+        <div className={s.diagram}>
+            <Line options={{ responsive: true, maintainAspectRatio: false }} data={data} />
         </div>
     )
 }
