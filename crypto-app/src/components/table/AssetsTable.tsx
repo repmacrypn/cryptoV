@@ -53,7 +53,7 @@ export const TableBody = () => {
         queryKey: ['assets', page],
         queryFn: () => cryptoAPI.fetchAssets({ offset: page, limit: TABLE_LIMIT }),
         keepPreviousData: true,
-        staleTime: 1000 * 60,
+        staleTime: Infinity,
     })
 
     const assetsRows = assets.map((asset: CryptoCoin) => {
